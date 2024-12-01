@@ -1,0 +1,32 @@
+{
+    "name": "penny-backend",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/penny-backend/src",
+    "projectType": "application",
+    "targets": {
+      "serve": {
+        "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "penny-backend:build"
+      }
+      },
+      "lint": {
+        "executor": "@nrwl/linter:eslint",
+        "options": {
+          "lintFilePatterns": [
+            "apps/penny-backend/**/*.ts"
+          ]
+        }
+      },
+      "test": {
+        "executor": "@nrwl/jest:jest",
+        "options": {
+          "jestConfig": "apps/penny-backend/jest.config.js",
+          "passWithNoTests": true
+        }
+      }
+    },
+    "tags": []
+  }
+  

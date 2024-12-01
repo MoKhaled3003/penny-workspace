@@ -1,0 +1,77 @@
+{
+    "name": "penny-frontend",
+    "root": "apps/penny-frontend",
+    "sourceRoot": "apps/penny-frontend/src",
+    "projectType": "application",
+    "targets": {
+      "build": {
+        "executor": "@angular-devkit/build-angular:browser",
+        "options": {
+          "outputPath": "dist/apps/penny-frontend",
+          "index": "apps/penny-frontend/src/index.html",
+          "main": "apps/penny-frontend/src/main.ts",
+          "tsConfig": "apps/penny-frontend/tsconfig.app.json",
+          "assets": [
+            "apps/penny-frontend/src/favicon.ico",
+            "apps/penny-frontend/src/assets"
+          ],
+          "styles": [
+            "apps/penny-frontend/src/styles.css"
+          ],
+          "scripts": []
+        },
+        "configurations": {
+          "production": {
+            "optimization": {
+              "scripts": true,
+              "styles": true,
+              "fonts": true
+            },
+            "outputHashing": "all",
+            "sourceMap": false,
+            "extractLicenses": true,
+            "namedChunks": false
+          },
+          "development": {
+            "optimization": false,
+            "sourceMap": true,
+            "extractLicenses": false
+          }
+        },
+        "defaultConfiguration": "production"
+      },
+      "serve": {
+        "executor": "@angular-devkit/build-angular:dev-server",
+        "options": {
+          "browserTarget": "penny-frontend:build"
+        },
+        "configurations": {
+          "production": {
+            "browserTarget": "penny-frontend:build:production"
+          },
+          "development": {
+            "browserTarget": "penny-frontend:build:development"
+          }
+        },
+        "defaultConfiguration": "development"
+      },
+      "lint": {
+        "executor": "@nrwl/linter:eslint",
+        "options": {
+          "lintFilePatterns": [
+            "apps/penny-frontend/src/**/*.ts",
+            "apps/penny-frontend/src/**/*.html"
+          ]
+        }
+      },
+      "test": {
+        "executor": "@nrwl/jest:jest",
+        "options": {
+          "jestConfig": "apps/penny-frontend/jest.config.js",
+          "passWithNoTests": true
+        }
+      }
+    },
+    "tags": []
+  }
+  
