@@ -34,26 +34,60 @@ export class AuthEffects {
       )
     )
   );
-
+  
   signinSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(AuthActions.signinSuccess),
-        tap(() => {
-          // Navigate to dashboard upon successful sign-in
+        tap(({ accessToken }) => {
+          // Store the token in localStorage
+          localStorage.setItem('accessToken', accessToken);
+  
+          // Navigate to the dashboard
           this.router.navigate(['/dashboard']);
         })
       ),
-    { dispatch: false } // This effect is only for side effects, no action dispatched
+    { dispatch: false }
   );
-  signout$ = createEffect(() =>
+    signout$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signout),
-      tap(() => {
-        localStorage.removeItem('user');
-        this.router.navigate(['/signin']);
+      switchMap(() => {
+        // Retrieve the token from localStorage or another state mechanism
+        const token = localStorage.getItem('accessToken'); // Adjust based on your implementation
+        if (!token) {
+          console.log('no token')
+          // If no token, directly dispatch success (user already logged out)
+          return of(AuthActions.signoutSuccess());
+        }
+        return this.authService.signout(token).pipe(
+          map(() => AuthActions.signoutSuccess()),
+          catchError((error) => of(AuthActions.signoutFailure({ error })))
+        );
       })
-    ),
+    )
+  );
+  
+  signoutSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.signoutSuccess),
+        tap(() => {
+          localStorage.removeItem('accessToken');
+          this.router.navigate(['/signin']);
+        })
+      ),
+    { dispatch: false }
+  );
+  
+  signoutFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.signoutFailure),
+        tap((action) => {
+          console.error('Sign Out Failed:', action.error);
+        })
+      ),
     { dispatch: false }
   );
 }

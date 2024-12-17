@@ -40,5 +40,14 @@ export const authReducer = createReducer(
     ...state,
     accessToken: null,
     authError: null,
+  })),
+  on(AuthActions.signoutSuccess, (state) => ({
+    ...state,
+    accessToken: null,
+    authError: null,
+  })),
+  on(AuthActions.signoutFailure, (state, action) => ({
+    ...state,
+    authError: action.error,
   }))
 );

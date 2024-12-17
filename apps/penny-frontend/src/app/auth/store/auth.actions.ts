@@ -25,3 +25,11 @@ export const signinStart = createAction(
 // Signout Actions
 export const signout = createAction('[Auth] Signout');
 
+export const signoutSuccess = createAction(
+  '[Auth] Sign Out Success'
+);
+
+export const signoutFailure = createAction(
+  '[Auth] Sign Out Failure',
+  props<{ error: any }>()
+);
